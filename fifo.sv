@@ -9,4 +9,9 @@ module Sync_FIFO #(parameter DEPTH=8, parameter DATA_WIDTH=8) (
   output full, empty
 );
 
-endmodule
+  parameter BIT_WIDTH = $clog2(DEPTH); // ceiling log 2
+
+  reg [BIT_WIDTH + 1:0] write_ptr;
+  reg [BIT_WIDTH + 1:0] read_ptr;
+
+endmodule: Sync_FIFO
