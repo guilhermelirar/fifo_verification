@@ -19,9 +19,9 @@ module Sync_FIFO #(parameter DEPTH=8, parameter DATA_WIDTH=8) (
   assign full = {~write_ptr[BIT_WIDTH], write_ptr[BIT_WIDTH-1:0]} == read_ptr;
   assign empty = write_ptr == read_ptr;
 
-  always @(posedge clk, negedge rst) begin
+  always @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
-      write_ptr == '0; read_ptr == '0;
+      write_ptr <= '0; read_ptr <= '0;
     end
 
     if (!full && write_ptr) begin
