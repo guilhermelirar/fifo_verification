@@ -1,3 +1,9 @@
 # .gitignore
 build/
+
+# usually inside build/
 AN.DB/
+csrc/
+simv.daidir/
+simv
+ucli.key
