@@ -10,10 +10,8 @@ class fifo_transaction #(parameter WIDTH = 8);
   logic full, empty;
 
   function bit compare(fifo_transaction tx2);
-    if (data != tx2.data) begin
       if (tx2 == null) return 0;
       return (this.data == tx2.data);
-    end
   endfunction
 
 endclass: fifo_transaction
