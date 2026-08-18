@@ -10,3 +10,6 @@ analyze: build/vlogan.log
 compile:
 	# TODO: improve this also
 	cd build && vcs -sverilog -full64 -q -l compile.log -f ../files.f
+
+run:
+	cd build && ./simv -q -no_save
