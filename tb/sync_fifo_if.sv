@@ -2,13 +2,13 @@
 // Interface for Synchronous FIFO signals with clocking block
 
 interface sync_fifo_if #(parameter DATA_WIDTH = 8) (input clk);
-  logic [DATA_WIDTH-1:0] data_in, 
+  logic [DATA_WIDTH-1:0] data_in,
                          data_out;
-  
-  logic rst_n, 
-        wr_en, 
-        rd_en, 
-        full, 
+
+  logic rst_n,
+        wr_en,
+        rd_en,
+        full,
         empty;
 
   clocking cb @(posedge clk);
@@ -17,5 +17,8 @@ interface sync_fifo_if #(parameter DATA_WIDTH = 8) (input clk);
   endclocking
 
   modport TB(clocking cb, output rst_n);
-  
+
+  // Assertions
+  assert property (@(posedge clk) $fell(rst_n) |-> empty);
+
 endinterface
