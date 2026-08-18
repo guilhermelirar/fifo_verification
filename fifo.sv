@@ -1,6 +1,6 @@
 // fifo.sv
 // Synchronous FIFO
-module Sync_FIFO #(parameter DEPTH=8, parameter DATA_WIDTH=8) (
+module sync_fifo #(parameter DEPTH=8, parameter DATA_WIDTH=8) (
   input logic [DATA_WIDTH-1:0] data_in,
   input logic rst_n, clk, wr_en, rd_en,
 
@@ -35,4 +35,4 @@ module Sync_FIFO #(parameter DEPTH=8, parameter DATA_WIDTH=8) (
     end
   end
 
-endmodule: Sync_FIFO
+endmodule: sync_fifo
