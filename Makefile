@@ -1,15 +1,20 @@
 # Makefile
+
 all:
 	@echo "Nothing to do here (Makefile not ready)"
 	@exit 1
 
-analyze: build/vlogan.log
-	# TODO: clean this (use variables)
-	cd build && vlogan -sverilog -full64 -q -l vlogan.log ../tb/*.sv
+analyze:
+	mkdir -p build
+	cd build && vlogan -sverilog -full64 -q -l vlogan.log \
+		+incdir+../tb \
+		../fifo.sv \
+		../tb/sync_fifo_if.sv \
+		../tb/tb_pkg.sv \
+		../tb/top.sv
 
 compile:
-	# TODO: improve this also
-	cd build && vcs -sverilog -full64 -q -l compile.log -f ../files.f
+	cd build && vcs -sverilog -full64 -q -l compile.log +incdir+../tb -f ../files.f
 
 run:
 	cd build && ./simv -q -no_save

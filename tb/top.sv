@@ -1,8 +1,7 @@
 // top.sv
-// Currently useless
+import tb_pkg::*;
 module top;
   logic clk;
-
   sync_fifo_if fifo_io(clk);
   sync_fifo dut(
     .clk(clk),
