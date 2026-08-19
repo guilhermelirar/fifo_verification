@@ -21,7 +21,7 @@ class Driver;
 
   task run();
     fifo_transaction txn;
-    $display("%t [Driver] %m starting", $realtime);
+    $display("[Driver] %m starting (@%0t)", $realtime);
 
     // run loop
     while (1) begin
@@ -33,7 +33,7 @@ class Driver;
         return;
       end
       txn.display(
-        $sformatf("%t [Driver] %m got a transaction from Generator: ",
+        $sformatf("[Driver] %m got a transaction from Generator (@%t)",
         $realtime));
 
       drive_input(txn);
