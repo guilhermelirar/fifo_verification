@@ -24,12 +24,12 @@ module sync_fifo #(parameter DEPTH=8, parameter DATA_WIDTH=8) (
       write_ptr <= '0; read_ptr <= '0;
     end
 
-    if (!full && write_ptr) begin
+    if (!full && wr_en) begin
       data[write_ptr] <= data_in;
       write_ptr++;
     end
 
-    if (!empty && read_ptr) begin
+    if (!empty && rd_en) begin
       data_out <= data[read_ptr];
       read_ptr++;
     end
