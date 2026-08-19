@@ -17,7 +17,9 @@ module top;
   // TODO test & environment
   Driver drv;
   Generator gnr;
+  Monitor mon;
   mailbox #(fifo_transaction) mbx;
+  int run_for_n_txn = 5;
 
   always begin
     #5 clk = ~clk;
@@ -31,12 +33,17 @@ module top;
 
     gnr = new(mbx);
     drv = new(fifo_io, mbx);
+    mon = new(fifo_io);
 
-    fork;
-      gnr.run(5);
+    fork
+      gnr.run(run_for_n_txn);
       drv.run();
-    join;
+      mon.run();
+    join_none
 
+    wait(drv.pkt_count == run_for_n_txn);
+    disable fork;
+    #10 reset();
     $finish();
   end
 
@@ -45,6 +52,7 @@ module top;
     fifo_io.cb.wr_en <= 1'b0;
     fifo_io.cb.rd_en <= 1'b0;
     @(fifo_io.cb);
+    fifo_io.rst_n = 1'b1;
   endtask
 
 endmodule
