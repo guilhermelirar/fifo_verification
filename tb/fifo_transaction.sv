@@ -16,10 +16,19 @@ class fifo_transaction #(parameter WIDTH = 8);
 
   function display(string prefix = "[fifo_transaction.display]");
     $display(prefix);
-    $display("\twr_en: %b\n\trd_en: %b\n\tfull: %b \n\tempty: %b\n\tdata: 0x%h",
+    $display("wr_en: %b\n\trd_en: %b\n\tfull: %b \n\tempty: %b\n\tdata: 0x%h\n)",
       wr_en, rd_en,
       full, empty,
       data);
   endfunction
+
+  constraint c_operation_dist {
+    {wr_en, rd_en} dist {
+      2'b00 := 10,
+      2'b01 := 40,
+      2'b10 := 40,
+      2'b11 := 10
+    };
+  }
 
 endclass: fifo_transaction
