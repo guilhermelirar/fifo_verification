@@ -13,6 +13,8 @@ class Generator;
       txn.randomize();
       mbx_out.put(txn);
     end
+
+    mbx_out.put(null);
   endtask
 
 endclass: Generator
