@@ -16,7 +16,7 @@ class fifo_transaction #(parameter WIDTH = 8);
 
   function display(string prefix = "[fifo_transaction.display]");
     $display(prefix);
-    $display("wr_en: %b\n\trd_en: %b\n\tfull: %b \n\tempty: %b\n\tdata: 0x%h\n)",
+    $display("{\n\twr_en: %b\n\trd_en: %b\n\tfull: %b \n\tempty: %b\n\tdata: 0x%h\n}",
       wr_en, rd_en,
       full, empty,
       data);

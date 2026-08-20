@@ -5,4 +5,5 @@
 ../tb/driver.sv
 ../tb/monitor.sv
 ../tb/tb_pkg.sv
+../tb/fifo_assertion.sv
 ../tb/top.sv

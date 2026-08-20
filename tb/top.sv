@@ -14,6 +14,8 @@ module top;
     .empty(fifo_io.empty)
   );
 
+  bind dut fifo_assertion fiscal_inst(.*);
+
   // TODO test & environment
   Driver drv;
   Generator gnr;
