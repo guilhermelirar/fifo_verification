@@ -15,11 +15,16 @@ class fifo_transaction #(parameter WIDTH = 8);
   endfunction
 
   function display(string prefix = "[fifo_transaction.display]");
-    $display(prefix);
-    $display("{\n\twr_en: %b\n\trd_en: %b\n\tfull: %b \n\tempty: %b\n\tdata: 0x%h\n}",
-      wr_en, rd_en,
-      full, empty,
-      data);
+    string operation;
+    if (rd_en && wr_en) operation = "(R/W) ";
+    else if (!rd_en & wr_en) operation = "( W ) ";
+    else if (rd_en) operation = "( R ) ";
+    else operation = "(NOP) ";
+
+    $display(
+      {prefix, operation,
+      $sformatf("EMPTY: %b FULL: %b DATA: 0x%h", empty, full, data)}
+    );
   endfunction
 
   constraint c_operation_dist {

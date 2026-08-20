@@ -4,6 +4,8 @@
 class Driver;
   mailbox #(fifo_transaction) mbx;
   virtual sync_fifo_if.TB fifo_io;
+
+  bit log_enable = 0;
   int pkt_count = 0;
 
   function new(virtual sync_fifo_if fifo_io, mailbox #(fifo_transaction) mbx);
@@ -21,7 +23,7 @@ class Driver;
 
   task run();
     fifo_transaction txn;
-    $display("[Driver] %m starting (@%0t)", $realtime);
+    if (log_enable) $display("[Driver] %m starting (@%0t)", $realtime);
 
     // run loop
     while (1) begin
@@ -32,9 +34,12 @@ class Driver;
         @(fifo_io.cb);
         return;
       end
-      txn.display(
-        $sformatf("[Driver] %m got a transaction from Generator (@%t)",
-        $realtime));
+      
+      if (log_enable) begin 
+        txn.display(
+          $sformatf("[Driver] %m got a transaction from Generator (@%0t)",
+          $realtime));
+      end
 
       drive_input(txn);
     end

@@ -36,6 +36,7 @@ module top;
     gnr = new(mbx);
     drv = new(fifo_io, mbx);
     mon = new(fifo_io);
+    mon.log_enable = 1;
 
     fork
       gnr.run(run_for_n_txn);
