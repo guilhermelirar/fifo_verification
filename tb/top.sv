@@ -46,7 +46,9 @@ module top;
 
     wait(drv.pkt_count == run_for_n_txn);
     disable fork;
-    #10 reset();
+    repeat (5) @(fifo_io.cb);
+    reset();
+    repeat (5) @(fifo_io.cb);
     $finish();
   end
 

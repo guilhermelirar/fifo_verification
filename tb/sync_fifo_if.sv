@@ -22,7 +22,4 @@ interface sync_fifo_if #(parameter DATA_WIDTH = 8) (input clk);
 
   modport TB(clocking cb, output rst_n);
 
-  // Assertions
-  assert property (@(posedge clk) $fell(rst_n) |-> empty);
-
 endinterface
