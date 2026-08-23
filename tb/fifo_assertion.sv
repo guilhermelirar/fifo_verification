@@ -32,13 +32,13 @@ module fifo_assertion #(parameter DEPTH = 8, parameter DATA_WIDTH = 8) (
 
   // if empty and write requested, fifo is not empty anymore
   sva_write_on_empty:
-    assert property ((@posedge clk) disable iff (!rst_n)
+    assert property (@(posedge clk) disable iff (!rst_n)
       empty && wr_en && !rd_en |=> !empty
     ) else $error("[SVA] empty still high after write during empty");
 
   // if full and read requested, fifo is not full anymore
   sva_read_on_full:
-    assert property ((@posedge clk) disable iff (!rst_n)
+    assert property (@(posedge clk) disable iff (!rst_n)
       full && !wr_en && rd_en |=> !full
     ) else $error("[SVA] Full still high after read during full");
 
