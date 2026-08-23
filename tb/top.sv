@@ -25,7 +25,7 @@ module top;
   typedef mailbox #(fifo_transaction) tx_mailbox;
   tx_mailbox gen_mbx, wr_mbx, rd_mbx;
 
-  int run_for_n_txn = 5;
+  int run_for_n_txn = 100;
 
   always begin
     #5 clk = ~clk;

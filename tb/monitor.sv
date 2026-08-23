@@ -58,7 +58,7 @@ class Monitor;
         ));
       end
 
-      rd_en_q = (vif.mon_cb.rd_en == 1'b1);
+      rd_en_q = ((vif.mon_cb.rd_en == 1'b1) && !vif.mon_cb.empty);
     end
   endtask
 
