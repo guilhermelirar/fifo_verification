@@ -20,7 +20,12 @@ module top;
   Driver drv;
   Generator gnr;
   Monitor mon;
-  mailbox #(fifo_transaction) mbx;
+  Scoreboard scbd;
+
+  typedef mailbox #(fifo_transaction) tx_mailbox;
+  tx_mailbox gen_mbx;
+  tx_mailbox mon_mbx;
+
   int run_for_n_txn = 5;
 
   always begin
@@ -31,11 +36,13 @@ module top;
     reset();
     // TODO configure $realtime
     $display("[%m] Initializing test");
-    mbx = new();
+    gen_mbx = new();
+    mon_mbx = new();
 
-    gnr = new(mbx);
-    drv = new(fifo_io, mbx);
-    mon = new(fifo_io);
+    gnr = new(gen_mbx);
+    drv = new(fifo_io, gen_mbx);
+    mon = new(fifo_io, mon_mbx);
+    scbd = new(mon_mbx);
     mon.log_enable = 1;
 
     fork

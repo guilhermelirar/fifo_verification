@@ -3,9 +3,12 @@ class Monitor;
   virtual sync_fifo_if vif;
   bit log_enable = 0;
   bit rd_en_q = 0;
+  mailbox #(fifo_transaction) mbx;
 
-  function new(virtual sync_fifo_if vif);
+  function new(virtual sync_fifo_if vif,
+               mailbox #(fifo_transaction) mbx);
     this.vif = vif;
+    this.mbx = mbx;
   endfunction
 
   // Constructs a transaction based in the current state of the virtual
@@ -19,9 +22,9 @@ class Monitor;
   endtask
 
   task run();
-    if (log_enable) 
+    if (log_enable)
       $display("[Monitor] %m: monitoring interface to DUT... (@%0t)", $realtime);
-    
+
     forever begin
       @(vif.mon_cb);
 
@@ -30,7 +33,7 @@ class Monitor;
         sample_vif(tx, 1);
         if (log_enable) tx.display(
           $sformatf("(@%0t) [Monitor] Read response: ", $realtime
-        ));      
+        ));
       end
 
       if (vif.mon_cb.wr_en) begin
