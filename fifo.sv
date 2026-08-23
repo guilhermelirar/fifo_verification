@@ -19,19 +19,22 @@ module sync_fifo #(parameter DEPTH=8, parameter DATA_WIDTH=8) (
   assign full = {~write_ptr[BIT_WIDTH], write_ptr[BIT_WIDTH-1:0]} == read_ptr;
   assign empty = write_ptr == read_ptr;
 
-  always @(posedge clk or negedge rst_n) begin
+  always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
-      write_ptr <= '0; read_ptr <= '0;
+      write_ptr <= '0;
+    // r/w enabled when full (?)
+    end else if (wr_en && (!full || rd_en)) begin
+      data[write_ptr[BIT_WIDTH-1:0]] <= data_in;
+      write_ptr <= write_ptr + 1'b1;
     end
+  end
 
-    if (!full && wr_en) begin
-      data[write_ptr] <= data_in;
-      write_ptr++;
-    end
-
-    if (!empty && rd_en) begin
-      data_out <= data[read_ptr];
-      read_ptr++;
+  always_ff @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
+      read_ptr <= '0;
+    end else if (rd_en && !empty) begin
+      data_out <= data[read_ptr[BIT_WIDTH-1:0]];
+      read_ptr <= read_ptr + 1'b1;
     end
   end
 
