@@ -23,8 +23,7 @@ module top;
   Scoreboard scbd;
 
   typedef mailbox #(fifo_transaction) tx_mailbox;
-  tx_mailbox gen_mbx;
-  tx_mailbox mon_mbx;
+  tx_mailbox gen_mbx, wr_mbx, rd_mbx;
 
   int run_for_n_txn = 5;
 
@@ -37,18 +36,20 @@ module top;
     // TODO configure $realtime
     $display("[%m] Initializing test");
     gen_mbx = new();
-    mon_mbx = new();
+    wr_mbx = new();
+    rd_mbx = new();
 
     gnr = new(gen_mbx);
     drv = new(fifo_io, gen_mbx);
-    mon = new(fifo_io, mon_mbx);
-    scbd = new(mon_mbx);
+    mon = new(fifo_io, wr_mbx, rd_mbx);
+    scbd = new(wr_mbx, rd_mbx);
     mon.log_enable = 1;
 
     fork
       gnr.run(run_for_n_txn);
       drv.run();
       mon.run();
+      scbd.run();
     join_none
 
     wait(drv.pkt_count == run_for_n_txn);

@@ -3,12 +3,15 @@ class Monitor;
   virtual sync_fifo_if vif;
   bit log_enable = 0;
   bit rd_en_q = 0;
-  mailbox #(fifo_transaction) mbx;
+  mailbox #(fifo_transaction) wr_mbx;
+  mailbox #(fifo_transaction) rd_mbx;
 
   function new(virtual sync_fifo_if vif,
-               mailbox #(fifo_transaction) mbx);
+               mailbox #(fifo_transaction) wr_mbx,
+               mailbox #(fifo_transaction) rd_mbx);
     this.vif = vif;
-    this.mbx = mbx;
+    this.wr_mbx = wr_mbx;
+    this.rd_mbx = rd_mbx;
   endfunction
 
   // Constructs a transaction based in the current state of the virtual
