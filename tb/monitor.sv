@@ -37,6 +37,7 @@ class Monitor;
         if (log_enable) tx.display(
           $sformatf("(@%0t) [Monitor] Read response: ", $realtime
         ));
+        rd_mbx.put(tx);
       end
 
       if (vif.mon_cb.wr_en) begin
@@ -45,6 +46,7 @@ class Monitor;
         if (log_enable) tx.display(
           $sformatf("(@%0t) [Monitor] Write request: ", $realtime
         ));
+        wr_mbx.put(tx);
       end
 
       if (vif.mon_cb.rd_en) begin
