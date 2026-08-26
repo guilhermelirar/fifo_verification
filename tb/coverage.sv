@@ -2,7 +2,7 @@
 // coverage collector class
 class fifo_coverage;
 
-  covergroup fifo_cg with function sample(fifo_transaction tr);
+  covergroup fifo_cg;
     cp_full: coverpoint tr.full {
       bins not_full = {0};
       bins full     = {1};
@@ -18,7 +18,7 @@ class fifo_coverage;
       bins rd_active = {1};
     }
 
-    cp_op_write: coverpoint tr.rd_en {
+    cp_op_write: coverpoint tr.wr_en {
       bins wr_inactive      = {0};
       bins wr_active = {1};
     }
@@ -30,4 +30,14 @@ class fifo_coverage;
     }
   endgroup
 
+  function new();
+    // instantiating the covergroup instance
+    fifo_cg = new();
+  endfunction
+
+  fifo_transaction tr;
+  function void sample(fifo_transaction tr);
+    this.tr = tr;
+    fifo_cg.sample();
+  endfunction
 endclass

@@ -33,6 +33,8 @@ class Monitor;
     forever begin
       @(vif.mon_cb);
 
+      // Samples the result of a read request, and sends it to
+      // the scoreboard mailbox of read responses
       if (rd_en_q) begin
         fifo_transaction tx = new();
         sample_vif(tx, 1);
@@ -42,22 +44,17 @@ class Monitor;
         rd_mbx.put(tx);
       end
 
-      if (vif.mon_cb.wr_en) begin
+      // Samples requests (write or read) and sends the write
+      // requests to the wr_mbx (to the Scoreboard instance)
+      if (vif.mon_cb.wr_en || vif.mon_cb.rd_en)
+      begin
         fifo_transaction tx = new();
         sample_vif(tx);
         if (log_enable) tx.display(
-          $sformatf("(@%0t) [Monitor] Write request: ", $realtime
+          $sformatf("(@%0t) [Monitor] Request: ", $realtime
         ));
-        wr_mbx.put(tx);
-      end
-
-      if (vif.mon_cb.rd_en) begin
-        fifo_transaction tx = new();
-        sample_vif(tx);
-        tx.data = 'x;
-        if (log_enable) tx.display(
-          $sformatf("(@%0t) [Monitor] Read request:  ", $realtime
-        ));
+        if (vif.mon_cb.wr_en) wr_mbx.put(tx);
+        if (cov_inst != null) cov_inst.sample(tx);
       end
 
       rd_en_q = ((vif.mon_cb.rd_en == 1'b1) && !vif.mon_cb.empty);
