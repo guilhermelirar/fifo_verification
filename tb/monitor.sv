@@ -1,16 +1,19 @@
 // tb/monitor.sv
-class Monitor;
+class Monitor #(parameter D_WIDTH = 8);;
   virtual sync_fifo_if vif;
   bit log_enable = 0;
   bit rd_en_q = 0;
-  mailbox #(fifo_transaction) wr_mbx;
-  mailbox #(fifo_transaction) rd_mbx;
+
+  typedef fifo_transaction #(D_WIDTH) transaction_t;
+  mailbox #(transaction_t) wr_mbx;
+  mailbox #(transaction_t) rd_mbx;
+  int total_transactions;
 
   fifo_coverage cov_inst;
 
   function new(virtual sync_fifo_if vif,
-               mailbox #(fifo_transaction) wr_mbx,
-               mailbox #(fifo_transaction) rd_mbx);
+               mailbox #(transaction_t) wr_mbx,
+               mailbox #(transaction_t) rd_mbx);
     this.vif = vif;
     this.wr_mbx = wr_mbx;
     this.rd_mbx = rd_mbx;
@@ -18,7 +21,7 @@ class Monitor;
 
   // Constructs a transaction based in the current state of the virtual
   // interface
-  task sample_vif(fifo_transaction tx, bit data_sel = 0);
+  task sample_vif(transaction_t tx, bit data_sel = 0);
     tx.wr_en = vif.mon_cb.wr_en;
     tx.rd_en = vif.mon_cb.rd_en;
     tx.data  = data_sel ? vif.mon_cb.data_out : vif.mon_cb.data_in;
@@ -28,7 +31,9 @@ class Monitor;
 
 
   task run();
-    fifo_transaction tx;
+    transaction_t tx;
+    total_transactions = 0;
+
     if (log_enable)
       $display("[Monitor] %m: monitoring interface to DUT... (@%0t)", $realtime);
 
@@ -37,11 +42,12 @@ class Monitor;
       @(vif.mon_cb);
       tx = new();
       sample_vif(tx);
+      total_transactions++;
 
       // Samples the result of a read request, and sends it to
       // the scoreboard mailbox of read responses
       if (rd_en_q) begin
-        fifo_transaction tx_resp = new();
+        transaction_t tx_resp = new();
         sample_vif(tx_resp, 1);
         if (log_enable) tx.display(
           $sformatf("(@%0t) [Monitor] Read response: ", $realtime
