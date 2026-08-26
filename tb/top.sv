@@ -16,17 +16,7 @@ module top;
 
   bind dut fifo_assertion fiscal_inst(.*);
 
-  // TODO test & environment
-  Driver drv;
-  Generator gnr;
-  Monitor mon;
-  Scoreboard scbd;
-  fifo_coverage cov_inst;
-
-  typedef mailbox #(fifo_transaction) tx_mailbox;
-  tx_mailbox gen_mbx, wr_mbx, rd_mbx;
-
-  int run_for_n_txn = 100;
+  Environment env;
 
   always begin
     #5 clk = ~clk;
@@ -36,30 +26,8 @@ module top;
     reset();
     // TODO configure $realtime
     $display("[%m] Initializing test");
-    gen_mbx = new();
-    wr_mbx = new();
-    rd_mbx = new();
-
-    gnr = new(gen_mbx);
-    drv = new(fifo_io, gen_mbx);
-    mon = new(fifo_io, wr_mbx, rd_mbx);
-    cov_inst = new();
-    mon.cov_inst = cov_inst;
-    scbd = new(wr_mbx, rd_mbx);
-    mon.log_enable = 1;
-
-    fork
-      gnr.run(run_for_n_txn);
-      drv.run();
-      mon.run();
-      scbd.run();
-    join_none
-
-    wait(drv.pkt_count == run_for_n_txn);
-    disable fork;
-    repeat (5) @(fifo_io.cb);
-    reset();
-    repeat (5) @(fifo_io.cb);
+    env = new(fifo_io);
+    env.run();
 
     $display("[FINISH] Coverage percent: %d%%", $get_coverage());
     $finish();
