@@ -1,6 +1,7 @@
 ../fifo.sv
 ../tb/sync_fifo_if.sv
 ../tb/fifo_transaction.sv
+../tb/coverage.sv
 ../tb/scoreboard.sv
 ../tb/generator.sv
 ../tb/driver.sv
