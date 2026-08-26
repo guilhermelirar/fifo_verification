@@ -21,6 +21,7 @@ module top;
   Generator gnr;
   Monitor mon;
   Scoreboard scbd;
+  fifo_coverage cov_inst;
 
   typedef mailbox #(fifo_transaction) tx_mailbox;
   tx_mailbox gen_mbx, wr_mbx, rd_mbx;
@@ -42,6 +43,8 @@ module top;
     gnr = new(gen_mbx);
     drv = new(fifo_io, gen_mbx);
     mon = new(fifo_io, wr_mbx, rd_mbx);
+    cov_inst = new();
+    mon.cov_inst = cov_inst;
     scbd = new(wr_mbx, rd_mbx);
     mon.log_enable = 1;
 

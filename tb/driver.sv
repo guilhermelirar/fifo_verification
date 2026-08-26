@@ -34,8 +34,8 @@ class Driver;
         @(fifo_io.cb);
         return;
       end
-      
-      if (log_enable) begin 
+
+      if (log_enable) begin
         txn.display(
           $sformatf("[Driver] %m got a transaction from Generator (@%0t)",
           $realtime));

@@ -6,6 +6,8 @@ class Monitor;
   mailbox #(fifo_transaction) wr_mbx;
   mailbox #(fifo_transaction) rd_mbx;
 
+  fifo_coverage cov_inst;
+
   function new(virtual sync_fifo_if vif,
                mailbox #(fifo_transaction) wr_mbx,
                mailbox #(fifo_transaction) rd_mbx);
