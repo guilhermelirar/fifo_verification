@@ -26,37 +26,40 @@ class Monitor;
     tx.full  = vif.mon_cb.full;
   endtask
 
+
   task run();
+    fifo_transaction tx;
     if (log_enable)
       $display("[Monitor] %m: monitoring interface to DUT... (@%0t)", $realtime);
 
     forever begin
+
       @(vif.mon_cb);
+      tx = new();
+      sample_vif(tx);
 
       // Samples the result of a read request, and sends it to
       // the scoreboard mailbox of read responses
       if (rd_en_q) begin
-        fifo_transaction tx = new();
-        sample_vif(tx, 1);
+        fifo_transaction tx_resp = new();
+        sample_vif(tx_resp, 1);
         if (log_enable) tx.display(
           $sformatf("(@%0t) [Monitor] Read response: ", $realtime
         ));
-        rd_mbx.put(tx);
+        rd_mbx.put(tx_resp);
       end
 
       // Samples requests (write or read) and sends the write
       // requests to the wr_mbx (to the Scoreboard instance)
       if (vif.mon_cb.wr_en || vif.mon_cb.rd_en)
       begin
-        fifo_transaction tx = new();
-        sample_vif(tx);
         if (log_enable) tx.display(
           $sformatf("(@%0t) [Monitor] Request: ", $realtime
         ));
         if (vif.mon_cb.wr_en) wr_mbx.put(tx);
-        if (cov_inst != null) cov_inst.sample(tx);
       end
 
+      if (cov_inst != null) cov_inst.sample(tx);
       rd_en_q = ((vif.mon_cb.rd_en == 1'b1) && !vif.mon_cb.empty);
     end
   endtask
