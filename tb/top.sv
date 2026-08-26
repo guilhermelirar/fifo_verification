@@ -60,6 +60,8 @@ module top;
     repeat (5) @(fifo_io.cb);
     reset();
     repeat (5) @(fifo_io.cb);
+
+    $display("[FINISH] Coverage percent: %d%%", $get_coverage());
     $finish();
   end
 

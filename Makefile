@@ -1,8 +1,6 @@
 # Makefile
 
-all:
-	@echo "Nothing to do here (Makefile not ready)"
-	@exit 1
+all: analyze compile run
 
 analyze:
 	mkdir -p build
@@ -18,3 +16,6 @@ compile:
 
 run:
 	cd build && ./simv -q -no_save -l simv.log
+
+cov:
+	cd build && urg -dir simv.vdb
