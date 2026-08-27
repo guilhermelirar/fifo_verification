@@ -24,6 +24,7 @@ interface sync_fifo_if #(parameter DATA_WIDTH = 8) (input clk);
 
   modport MON(clocking mon_cb, input rst_n);
 
-  modport DUT(input rst_n, wr_en, rd_en, output full, empty);
+  modport DUT(input clk, rst_n, wr_en, rd_en, data_in,
+              output full, empty, data_out);
 
 endinterface

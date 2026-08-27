@@ -1,11 +1,7 @@
 // fifo.sv
 // Synchronous FIFO
 module sync_fifo #(parameter DEPTH=8, parameter DATA_WIDTH=8) (
-  input logic [DATA_WIDTH-1:0] data_in,
-  input logic rst_n, clk, wr_en, rd_en,
-
-  output logic [DATA_WIDTH-1:0] data_out,
-  output full, empty
+  sync_fifo_if.DUT fifo_io
 );
 
   parameter BIT_WIDTH = $clog2(DEPTH); // ceiling log 2
@@ -16,24 +12,24 @@ module sync_fifo #(parameter DEPTH=8, parameter DATA_WIDTH=8) (
   logic [BIT_WIDTH:0] write_ptr;
   logic [BIT_WIDTH:0] read_ptr;
 
-  assign full = {~write_ptr[BIT_WIDTH], write_ptr[BIT_WIDTH-1:0]} == read_ptr;
-  assign empty = write_ptr == read_ptr;
+  assign fifo_io.full = {~write_ptr[BIT_WIDTH], write_ptr[BIT_WIDTH-1:0]} == read_ptr;
+  assign fifo_io.empty = write_ptr == read_ptr;
 
-  always_ff @(posedge clk or negedge rst_n) begin
-    if (!rst_n) begin
+  always_ff @(posedge fifo_io.clk or negedge fifo_io.rst_n) begin
+    if (!fifo_io.rst_n) begin
       write_ptr <= '0;
     // r/w enabled when full (?)
-    end else if (wr_en && (!full || rd_en)) begin
-      data[write_ptr[BIT_WIDTH-1:0]] <= data_in;
+    end else if (fifo_io.wr_en && (!fifo_io.full || fifo_io.rd_en)) begin
+      data[write_ptr[BIT_WIDTH-1:0]] <= fifo_io.data_in;
       write_ptr <= write_ptr + 1'b1;
     end
   end
 
-  always_ff @(posedge clk or negedge rst_n) begin
-    if (!rst_n) begin
+  always_ff @(posedge fifo_io.clk or negedge fifo_io.rst_n) begin
+    if (!fifo_io.rst_n) begin
       read_ptr <= '0;
-    end else if (rd_en && !empty) begin
-      data_out <= data[read_ptr[BIT_WIDTH-1:0]];
+    end else if (fifo_io.rd_en && !fifo_io.empty) begin
+      fifo_io.data_out <= data[read_ptr[BIT_WIDTH-1:0]];
       read_ptr <= read_ptr + 1'b1;
     end
   end
