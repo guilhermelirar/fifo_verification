@@ -16,10 +16,10 @@ class Driver #(parameter D_WIDTH = 8);
   endfunction
 
   task drive_input(transaction_t txn);
-    fifo_io.cb.wr_en <= txn.wr_en;
-    fifo_io.cb.rd_en <= txn.rd_en;
-    fifo_io.cb.data_in <= txn.data;
-    @(fifo_io.cb);
+    fifo_io.drv_cb.wr_en <= txn.wr_en;
+    fifo_io.drv_cb.rd_en <= txn.rd_en;
+    fifo_io.drv_cb.data_in <= txn.data;
+    @(fifo_io.drv_cb);
     pkt_count++;
   endtask
 
@@ -31,9 +31,9 @@ class Driver #(parameter D_WIDTH = 8);
     while (1) begin
       this.mbx.get(txn);
       if (txn == null) begin
-        fifo_io.cb.wr_en <= 1'b0;
-        fifo_io.cb.wr_en <= 1'b0;
-        @(fifo_io.cb);
+        fifo_io.drv_cb.wr_en <= 1'b0;
+        fifo_io.drv_cb.wr_en <= 1'b0;
+        @(fifo_io.drv_cb);
         return;
       end
 
