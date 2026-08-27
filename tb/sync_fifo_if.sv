@@ -11,7 +11,7 @@ interface sync_fifo_if #(parameter DATA_WIDTH = 8) (input clk);
         full,
         empty;
 
-  clocking cb @(posedge clk);
+  clocking drv_cb @(posedge clk);
     input data_out, full, empty;
     output data_in, wr_en, rd_en;
   endclocking
@@ -20,6 +20,10 @@ interface sync_fifo_if #(parameter DATA_WIDTH = 8) (input clk);
     input wr_en, rd_en, data_in, data_out, full, empty;
   endclocking
 
-  modport TB(clocking cb, output rst_n);
+  modport TB(clocking drv_cb, output rst_n);
+
+  modport MON(clocking mon_cb, input rst_n);
+
+  modport DUT(input rst_n, wr_en, rd_en, output full, empty);
 
 endinterface
