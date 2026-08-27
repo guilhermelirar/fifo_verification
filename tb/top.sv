@@ -1,9 +1,11 @@
 // top.sv
 import tb_pkg::*;
 module top;
+  parameter int DATA_WIDTH = 16;
+
   logic clk = 0;
-  sync_fifo_if fifo_io(clk);
-  sync_fifo dut(
+  sync_fifo_if #(DATA_WIDTH) fifo_io (clk);
+  sync_fifo #(.DATA_WIDTH(DATA_WIDTH)) dut(
     .clk(clk),
     .rst_n(fifo_io.rst_n),
     .wr_en(fifo_io.wr_en),
@@ -14,9 +16,9 @@ module top;
     .empty(fifo_io.empty)
   );
 
-  bind dut fifo_assertion fiscal_inst(.*);
+  bind dut fifo_assertion #(.DATA_WIDTH(DATA_WIDTH)) fiscal_inst(.*);
 
-  Environment env;
+  Environment #(DATA_WIDTH) env;
 
   always begin
     #5 clk = ~clk;

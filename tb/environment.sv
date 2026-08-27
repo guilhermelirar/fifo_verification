@@ -5,11 +5,11 @@
 class Environment #(parameter D_WIDTH = 8);
   Config cfg;
   virtual interface sync_fifo_if #(D_WIDTH) vif;
-  Driver      #(D_WIDTH) drv;
-  Generator   #(D_WIDTH) gnr;
-  Monitor     #(D_WIDTH) mon;
-  Scoreboard  #(D_WIDTH) scbd;
-  fifo_coverage cov_inst;
+  Driver        #(D_WIDTH) drv;
+  Generator     #(D_WIDTH) gnr;
+  Monitor       #(D_WIDTH) mon;
+  Scoreboard    #(D_WIDTH) scbd;
+  fifo_coverage #(D_WIDTH) cov_inst;
 
   typedef mailbox #(fifo_transaction #(D_WIDTH)) tx_mailbox;
   tx_mailbox gen_mbx, wr_mbx, rd_mbx;

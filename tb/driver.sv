@@ -4,12 +4,13 @@
 class Driver #(parameter D_WIDTH = 8);
   typedef fifo_transaction #(D_WIDTH) transaction_t;
   mailbox #(transaction_t) mbx;
-  virtual sync_fifo_if.TB fifo_io;
+  virtual sync_fifo_if #(D_WIDTH).TB fifo_io;
 
   bit log_enable = 0;
   int pkt_count = 0;
 
-  function new(virtual sync_fifo_if fifo_io, mailbox #(transaction_t) mbx);
+  function new(virtual sync_fifo_if #(D_WIDTH).TB fifo_io,
+               mailbox #(transaction_t) mbx);
     this.mbx = mbx;
     this.fifo_io = fifo_io;
   endfunction

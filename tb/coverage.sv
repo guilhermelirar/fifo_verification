@@ -1,6 +1,7 @@
 // tb/coverage.sv
 // coverage collector class
-class fifo_coverage;
+// parametrized with the width of the FIFO data
+class fifo_coverage #(DATA_WIDTH = 8);
 
   covergroup fifo_cg;
     cp_full: coverpoint tr.full {
@@ -35,8 +36,8 @@ class fifo_coverage;
     fifo_cg = new();
   endfunction
 
-  fifo_transaction tr;
-  function void sample(fifo_transaction tr);
+  fifo_transaction #(DATA_WIDTH) tr;
+  function void sample(fifo_transaction #(DATA_WIDTH) tr);
     this.tr = tr;
     fifo_cg.sample();
   endfunction

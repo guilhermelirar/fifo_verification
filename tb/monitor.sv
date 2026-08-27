@@ -1,6 +1,6 @@
 // tb/monitor.sv
 class Monitor #(parameter D_WIDTH = 8);;
-  virtual sync_fifo_if vif;
+  virtual sync_fifo_if #(D_WIDTH) vif;
   bit log_enable = 0;
   bit rd_en_q = 0;
 
@@ -9,9 +9,9 @@ class Monitor #(parameter D_WIDTH = 8);;
   mailbox #(transaction_t) rd_mbx;
   int total_transactions;
 
-  fifo_coverage cov_inst;
+  fifo_coverage #(D_WIDTH) cov_inst;
 
-  function new(virtual sync_fifo_if vif,
+  function new(virtual sync_fifo_if #(D_WIDTH) vif,
                mailbox #(transaction_t) wr_mbx,
                mailbox #(transaction_t) rd_mbx);
     this.vif = vif;
