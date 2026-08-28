@@ -15,29 +15,17 @@ module top;
     .write_ptr(dut.write_ptr)
   );
 
-  Environment #(DATA_WIDTH) env;
+  TestDefault #(DATA_WIDTH) test;
 
   always begin
     #5 clk = ~clk;
   end
 
   initial begin
-    reset();
-    // TODO configure $realtime
-    $display("[%m] Initializing test");
-    env = new(fifo_io);
-    env.run();
-
+    test = new(fifo_io);
+    test.run();
     $display("[FINISH] Coverage percent: %d%%", $get_coverage());
     $finish();
   end
-
-  task reset();
-    fifo_io.rst_n = 1'b0;
-    fifo_io.drv_cb.wr_en <= 1'b0;
-    fifo_io.drv_cb.rd_en <= 1'b0;
-    @(fifo_io.drv_cb);
-    fifo_io.rst_n = 1'b1;
-  endtask
 
 endmodule
