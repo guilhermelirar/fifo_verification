@@ -15,6 +15,7 @@ class Generator #(parameter D_WIDTH = 8);
     repeat (cfg.max_transactions) begin
       transaction_t txn = new();
       if (!txn.randomize() with {
+        // using configuration values to direct test
         wr_en dist { 1 := cfg.wr_prob, 0 := 100 - cfg.wr_prob};
         rd_en dist { 1 := cfg.rd_prob, 0 := 100 - cfg.rd_prob};
       }) begin

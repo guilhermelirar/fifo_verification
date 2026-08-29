@@ -2,9 +2,6 @@
 // Checks the correctness of the DUT through a golden_queue
 // fed by a mailbox (wr_mbx, rd_mbx)
 
-// #1 mailboxes
-// #2 golden_queue + logic for correctness check
-
 class Scoreboard #(parameter D_WIDTH = 8);
   typedef fifo_transaction #(D_WIDTH) transaction_t;
   mailbox #(transaction_t) wr_mbx, rd_mbx;
@@ -20,6 +17,7 @@ class Scoreboard #(parameter D_WIDTH = 8);
       transaction_t tx;
       forever begin
         wr_mbx.get(tx);
+        // simultaneous write and read behavior
         if (!tx.full || (tx.wr_en && tx.rd_en)) begin
           golden_queue.push_back(tx.data);
         end
