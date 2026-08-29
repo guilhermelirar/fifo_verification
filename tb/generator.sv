@@ -14,7 +14,13 @@ class Generator #(parameter D_WIDTH = 8);
   task run();
     repeat (cfg.max_transactions) begin
       transaction_t txn = new();
-      txn.randomize();
+      if (!txn.randomize() with {
+        wr_en dist { 1 := cfg.wr_prob, 0 := 100 - cfg.wr_prob};
+        rd_en dist { 1 := cfg.rd_prob, 0 := 100 - cfg.rd_prob};
+      }) begin
+        $fatal(1, "[%m] Randomization failed");
+      end
+
       mbx_out.put(txn);
     end
 

@@ -27,13 +27,4 @@ class fifo_transaction #(parameter WIDTH = 8);
     );
   endfunction
 
-  constraint c_operation_dist {
-    {wr_en, rd_en} dist {
-      2'b00 := 10,
-      2'b01 := 40,
-      2'b10 := 40,
-      2'b11 := 10
-    };
-  }
-
 endclass: fifo_transaction
