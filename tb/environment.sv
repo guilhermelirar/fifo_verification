@@ -44,6 +44,8 @@ task Environment::run();
   $display("[Environment] running components until %d transactions",
     cfg.max_transactions);
 
+  gnr.cfg = cfg;
+
   fork
     gnr.run();
     drv.run();

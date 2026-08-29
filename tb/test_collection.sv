@@ -48,3 +48,25 @@ class TestDefault #(parameter DATA_WIDTH = 8) extends Test #(DATA_WIDTH);
     env.run();
   endtask
 endclass
+
+// Test WriteHeavy
+class TestWriteHeavy #(parameter DATA_WIDTH = 8) extends Test #(DATA_WIDTH);
+  function new(
+    virtual interface sync_fifo_if #(DATA_WIDTH) vif,
+    string name = "TestWriteHeavy"
+  );
+    super.new(vif, name);
+    this.env = new(vif);
+  endfunction
+
+  task run();
+    super.run();
+    reset();
+    cfg.max_transactions = 1000;
+    cfg.wr_prob = 95;
+    cfg.rd_prob = 10;
+    env.cfg = cfg; // passing default configuration
+    env.mon.log_enable = 1;
+    env.run();
+  endtask
+endclass

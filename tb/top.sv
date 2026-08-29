@@ -15,14 +15,19 @@ module top;
     .write_ptr(dut.write_ptr)
   );
 
-  TestDefault #(DATA_WIDTH) test;
+  Test #(DATA_WIDTH) test;
+  TestDefault #(DATA_WIDTH) test_default;
+  TestWriteHeavy #(DATA_WIDTH) test_wr_heavy;
 
   always begin
     #5 clk = ~clk;
   end
 
   initial begin
-    test = new(fifo_io);
+    test_wr_heavy = new(fifo_io);
+    test = test_wr_heavy;
+//    test_default = new(fifo_io);
+//    test = test_default;
     test.run();
     $display("[FINISH] Coverage percent: %d%%", $get_coverage());
     $finish();

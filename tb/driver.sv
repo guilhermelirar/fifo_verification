@@ -32,7 +32,7 @@ class Driver #(parameter D_WIDTH = 8);
       this.mbx.get(txn);
       if (txn == null) begin
         fifo_io.drv_cb.wr_en <= 1'b0;
-        fifo_io.drv_cb.wr_en <= 1'b0;
+        fifo_io.drv_cb.rd_en <= 1'b0;
         @(fifo_io.drv_cb);
         return;
       end
