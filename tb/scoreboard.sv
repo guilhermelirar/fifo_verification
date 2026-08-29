@@ -17,12 +17,14 @@ class Scoreboard #(parameter D_WIDTH = 8);
   endfunction
 
   task handle_write();
-    transaction_t tx;
-    forever begin
-      wr_mbx.get(tx); // gets write request from wr_mbx
-      if (golden_queue.size() < fifo_depth) golden_queue.push_back(tx.data);
-    end
-  endtask
+      transaction_t tx;
+      forever begin
+        wr_mbx.get(tx);
+        if (!tx.full || (tx.wr_en && tx.rd_en)) begin
+          golden_queue.push_back(tx.data);
+        end
+      end
+    endtask
 
   task handle_read();
     transaction_t tx;
@@ -32,7 +34,7 @@ class Scoreboard #(parameter D_WIDTH = 8);
         $display("[Scoreboard] read on empty"); // error?
       end else begin
         if (int'(tx.data) != golden_queue.pop_front()) begin
-          $error(
+          $fatal(
             "[Scoreboard] retrieved value after read does not match first-in"
           );
         end
