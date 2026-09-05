@@ -6,6 +6,34 @@ This repository contains a SystemVerilog verification environment for a Synchron
 
 The testbench is structured into class-based components using SystemVerilog OOP practices and virtual interfaces:
 
+```mermaid
+%%{init: {'theme': 'base', 'flowchart': {'curve': 'stepBefore'}}}%%
+flowchart TB
+    subgraph TOP [top.sv]
+        direction TB
+        
+        subgraph TEST [Test]
+            direction TB
+            CFG[Config]
+            
+            subgraph ENV [Environment]
+                direction LR
+                GEN[Generator] -->|"mailbox <br> #(fifo_transaction)"| DRV[Driver]
+                MON[Monitor] -->|mailbox| SCBD[Scoreboard]
+                MON --> COV[fifo_coverage]
+            end
+        end
+
+        INTF([sync_fifo_if])
+        DUT[sync_fifo RTL]
+    end
+
+    DRV -->|drives <br> wr_en, data_in, rd_en| INTF
+    INTF -->|samples fifo_transaction| MON
+    INTF <--> DUT
+
+```
+
 * **Generator** (at `tb/generator.sv`): Instantiates and randomizes 
 `fifo_transaction` objects according to distribution probabilities specified in a `Config` object.
 * **Driver** (at `tb/driver.sv`): Pulls transactions from the Generator mailbox and drives interface signals according to DUT clocking block timing.
