@@ -2,6 +2,8 @@
 
 This repository contains a SystemVerilog verification environment for a Synchronous FIFO memory module. The environment relies on Constrained Random Verification (CRV), functional coverage collection, and automated self-checking scoreboards.
 
+![sync_fifo Block Diagram](fifo_diagram.png)
+
 ## Architecture & Verification Components
 
 The testbench is structured into class-based components using SystemVerilog OOP practices and virtual interfaces:
