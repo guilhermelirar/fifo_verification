@@ -1,4 +1,4 @@
-class test_base extends uvm_test
+class test_base extends uvm_test;
   `uvm_component_utils(test_base)
 
   function new(string name, uvm_component parent);
@@ -6,7 +6,11 @@ class test_base extends uvm_test
     `uvm_info("TRACE", $sformatf("%m"), UVM_HIGH);
   endfunction
 
-  extern function void build_phase(uvm_phase phase);
-  extern function void start_of_simulation_phase(phase);
+  function void build_phase(uvm_phase phase); endfunction
+
+  function void start_of_simulation();
+    uvm_top.print_topology();
+  endfunction
+
 
 endclass: test_base
