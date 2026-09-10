@@ -10,10 +10,10 @@ class fifo_item #(DATA_WIDTH = 8) extends uvm_sequence_item;
   `uvm_object_utils_begin(fifo_item)
     `uvm_field_int(data_in, UVM_ALL_ON)
     `uvm_field_int(data_out, UVM_ALL_ON)
-    `uvm_field_int(wr_en, UVM_ALL_ON)
-    `uvm_field_int(rd_en, UVM_ALL_ON)
-    `uvm_field_int(empty, UVM_ALL_ON)
-    `uvm_field_int(full, UVM_ALL_ON)
+    `uvm_field_int(wr_en, UVM_BIN)
+    `uvm_field_int(rd_en, UVM_BIN)
+    `uvm_field_int(empty, UVM_BIN)
+    `uvm_field_int(full, UVM_BIN)
   `uvm_object_utils_end
 
   function new(string name = "fifo_item");
