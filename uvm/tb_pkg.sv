@@ -3,5 +3,6 @@ package tb_pkg;
   `include "uvm_macros.svh"
   `include "fifo_item.sv"
   `include "fifo_sequence.sv"
+  `include "fifo_driver.sv"
   `include "test_suite.sv"
 endpackage
