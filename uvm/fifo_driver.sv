@@ -38,18 +38,6 @@ extends uvm_driver #(fifo_item #(DATA_WIDTH));
       vif.drv_cb.rd_en <= tr.rd_en;
       vif.drv_cb.data_in <= tr.data_in;
 
-      /** -- only needed if sequence needs to know outputs
-      @(vif.drv_cb);
-      // Deassert control signals to prevent duplicate operations in the next cycle
-      vif.drv_cb.wr_en <= 1'b0;
-      vif.drv_cb.rd_en <= 1'b0;
-
-      @(vif.drv_cb);
-      tr.full <= vif.drv_cb.full;
-      tr.empty <= vif.drv_cb.empty;
-      if (tr.rd_en) tr.data_out <= vif.drv_cb.data_out;
-      **/
-
       seq_item_port.item_done();
     end
 
