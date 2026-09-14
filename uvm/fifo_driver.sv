@@ -13,6 +13,8 @@ extends uvm_driver #(fifo_item #(DATA_WIDTH));
 
   // Retrieves the virtual interface through the uvm_config_db
   virtual function build_phase(uvm_phase phase);
+    super.build_phase(phase);
+
     if (uvm_config_db #(virtual sync_fifo_if #(DATA_WIDTH))::get(
       this, "", "vif", vif
     ))
