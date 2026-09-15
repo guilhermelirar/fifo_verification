@@ -12,7 +12,7 @@ class fifo_monitor #(DATA_WIDTH = 8) extends uvm_monitor;
   function new(string name = "fifo_monitor", uvm_component parent);
     super.new(name, parent);
     `uvm_info(get_type_name(), "%m Monitor instantiated", UVM_HIGH)
-  endclass
+  endfunction
 
   // Retrieves virutal interface and coverage options
   function void build_phase(uvm_phase phase);
@@ -26,10 +26,10 @@ class fifo_monitor #(DATA_WIDTH = 8) extends uvm_monitor;
 
     if (!uvm_config_db#(bit)::get(this, "", "enable_coverage", enable_coverage))
     begin
-      `uvm_warning(
+      `uvm_info(
         get_type_name(),
-        "Using default value of '%b' for enable_coverage",
-        enable_coverage
+        "Using default value of 1 for enable_coverage",
+        UVM_WARNING
       );
     end
 
