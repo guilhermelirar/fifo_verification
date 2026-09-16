@@ -8,6 +8,7 @@ class fifo_monitor #(DATA_WIDTH = 8) extends uvm_monitor;
   bit enable_coverage = 1;
   int unsigned tr_cnt = 0;
   virtual sync_fifo_if #(DATA_WIDTH).MON vif;
+  uvm_analysis_port #(fifo_item #(DATA_WIDTH)) mon_analysis_port;
 
   function new(string name = "fifo_monitor", uvm_component parent);
     super.new(name, parent);
@@ -52,10 +53,10 @@ class fifo_monitor #(DATA_WIDTH = 8) extends uvm_monitor;
           $sformartf("tr#%0d", tr_cnt)
         );
 
-        tr.wr_en    <= vif.mon_cb.wr_en;
-        tr.rd_en    <= vif.mon_cb.rd_en;
-        tr.data_in  <= vif.mon_cb.data_in;
-        tr.data_out <= vif.mon_cb.data_out;
+        tr.wr_en    = vif.mon_cb.wr_en;
+        tr.rd_en    = vif.mon_cb.rd_en;
+        tr.data_in  = vif.mon_cb.data_in;
+        tr.data_out = vif.mon_cb.data_out;
         mon_analysis_port.write(tr);
       end
 
