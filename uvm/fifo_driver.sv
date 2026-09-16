@@ -4,7 +4,7 @@ extends uvm_driver #(fifo_item #(DATA_WIDTH));
 
   `uvm_component_utils(fifo_driver);
 
-  virtual sync_fifo_if #(DATA_WIDTH).TB vif;
+  virtual sync_fifo_if #(DATA_WIDTH) vif;
 
   function new(string name = "fifo_driver", uvm_component parent);
     super.new(name, parent);
@@ -12,7 +12,7 @@ extends uvm_driver #(fifo_item #(DATA_WIDTH));
   endfunction
 
   // Retrieves the virtual interface through the uvm_config_db
-  virtual function build_phase(uvm_phase phase);
+  virtual function void build_phase(uvm_phase phase);
     super.build_phase(phase);
 
     if (uvm_config_db #(virtual sync_fifo_if #(DATA_WIDTH))::get(

@@ -7,7 +7,7 @@ class fifo_monitor #(DATA_WIDTH = 8) extends uvm_monitor;
 
   bit enable_coverage = 1;
   int unsigned tr_cnt = 0;
-  virtual sync_fifo_if #(DATA_WIDTH).MON vif;
+  virtual sync_fifo_if #(DATA_WIDTH) vif;
   uvm_analysis_port #(fifo_item #(DATA_WIDTH)) mon_analysis_port;
 
   function new(string name = "fifo_monitor", uvm_component parent);
@@ -50,7 +50,7 @@ class fifo_monitor #(DATA_WIDTH = 8) extends uvm_monitor;
 
       if (vif.mon_cb.wr_en || rd_requested || vif.mon_cb.rd_en) begin
         tr = fifo_item#(DATA_WIDTH)::type_id::create(
-          $sformartf("tr#%0d", tr_cnt)
+          $sformatf("tr#%0d", tr_cnt)
         );
 
         tr.wr_en    = vif.mon_cb.wr_en;
@@ -60,7 +60,7 @@ class fifo_monitor #(DATA_WIDTH = 8) extends uvm_monitor;
         mon_analysis_port.write(tr);
       end
 
-      rd_requested <= vif.mon_cb.rd_en;
+      rd_requested = vif.mon_cb.rd_en;
     end
 
   endtask
