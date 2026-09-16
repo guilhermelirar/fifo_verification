@@ -51,8 +51,8 @@ class fifo_coverage #(DATA_WIDTH=8) extends uvm_subscriber #(fifo_item #(DATA_WI
     `uvm_info(get_type_name(), "%m Coverage class instantiated!", UVM_HIGH);
   endfunction
 
-  virtual function write(fifo_item #(DATA_WIDTH) tr);
-    this.tr = tr;
+  virtual function void write(fifo_item #(DATA_WIDTH) t);
+    this.tr = t;
     fifo_cg.sample();
   endfunction
 
