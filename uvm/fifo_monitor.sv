@@ -48,7 +48,10 @@ class fifo_monitor #(DATA_WIDTH = 8) extends uvm_monitor;
       @(vif.mon_cb);
 
       if (vif.mon_cb.wr_en || rd_requested || vif.mon_cb.rd_en) begin
-        tr = fifo_item::type_id::create($sformartf("tr#%0d", tr_cnt));
+        tr = fifo_item#(DATA_WIDTH)::type_id::create(
+          $sformartf("tr#%0d", tr_cnt)
+        );
+
         tr.wr_en    <= vif.mon_cb.wr_en;
         tr.rd_en    <= vif.mon_cb.rd_en;
         tr.data_in  <= vif.mon_cb.data_in;
