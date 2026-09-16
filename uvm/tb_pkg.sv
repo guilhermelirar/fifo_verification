@@ -6,8 +6,10 @@ package tb_pkg;
   `include "uvm_macros.svh"
   `include "fifo_item.sv"
   `include "fifo_sequences.sv"
+  `include "fifo_sequencer.sv"
   `include "fifo_driver.sv"
   `include "fifo_coverage.sv"
   `include "fifo_monitor.sv"
+  `include "fifo_agent.sv"
   `include "test_suite.sv"
 endpackage
