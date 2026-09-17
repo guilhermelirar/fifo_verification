@@ -10,6 +10,7 @@ package tb_pkg;
   `include "fifo_driver.sv"
   `include "fifo_coverage.sv"
   `include "fifo_monitor.sv"
+  `include "fifo_scoreboard.sv"
   `include "fifo_agent.sv"
   `include "test_suite.sv"
 endpackage
