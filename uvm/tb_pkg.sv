@@ -2,6 +2,7 @@ package tb_pkg;
   import uvm_pkg::*;
 
   parameter int DATA_WIDTH = 8;
+  parameter int DEPTH      = 8;
 
   `include "uvm_macros.svh"
   `include "fifo_item.sv"
