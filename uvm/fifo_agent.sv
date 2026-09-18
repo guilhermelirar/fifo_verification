@@ -9,6 +9,8 @@ class fifo_agent extends uvm_agent;
   fifo_coverage #(DATA_WIDTH) coverage;
   fifo_driver #(DATA_WIDTH) driver;
 
+  bit enable_coverage = 1;
+
   function new(string name = "fifo_agent", uvm_component parent);
     super.new(name, parent);
     `uvm_info(get_type_name(), "%m Agent instantiated", UVM_HIGH);
@@ -18,6 +20,15 @@ class fifo_agent extends uvm_agent;
   // in case of active agent
   function void build_phase(uvm_phase phase);
     super.build_phase(phase);
+
+    if (!uvm_config_db#(bit)::get(this, "", "enable_coverage", enable_coverage))
+    begin
+      `uvm_info(
+        get_type_name(),
+        "Using default value of 1 for enable_coverage",
+        UVM_WARNING
+      );
+    end
 
     // Active components
     if (get_is_active()) begin
@@ -35,9 +46,11 @@ class fifo_agent extends uvm_agent;
       "fifo_monitor", this
     );
 
-    coverage = fifo_coverage #(DATA_WIDTH)::type_id::create(
-      "fifo_coverage", this
-    );
+    if (enable_coverage) begin
+      coverage = fifo_coverage #(DATA_WIDTH)::type_id::create(
+        "fifo_coverage", this
+      );
+    end
   endfunction
 
   // Connects condicionally the ports (who calls the methods on it)
@@ -52,7 +65,9 @@ class fifo_agent extends uvm_agent;
     end
 
     // monitor sends (write) items
-    monitor.mon_analysis_port.connect(coverage.analysis_export);
+    if (enable_coverage) begin
+      monitor.mon_analysis_port.connect(coverage.analysis_export);
+    end
   endfunction
 
 endclass

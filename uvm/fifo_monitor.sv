@@ -5,7 +5,6 @@
 class fifo_monitor #(DATA_WIDTH = 8) extends uvm_monitor;
   `uvm_component_utils(fifo_monitor)
 
-  bit enable_coverage = 1;
   int unsigned tr_cnt = 0;
   virtual sync_fifo_if #(DATA_WIDTH) vif;
   uvm_analysis_port #(fifo_item #(DATA_WIDTH)) mon_analysis_port;
@@ -23,15 +22,6 @@ class fifo_monitor #(DATA_WIDTH = 8) extends uvm_monitor;
       this, "", "vif", vif)
     ) begin
       `uvm_fatal(get_type_name(), "%m Failed to retrieve virtual interface");
-    end
-
-    if (!uvm_config_db#(bit)::get(this, "", "enable_coverage", enable_coverage))
-    begin
-      `uvm_info(
-        get_type_name(),
-        "Using default value of 1 for enable_coverage",
-        UVM_WARNING
-      );
     end
 
     `uvm_info(get_type_name(), "%m Monitor was built" , UVM_HIGH)
