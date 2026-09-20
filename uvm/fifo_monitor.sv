@@ -3,7 +3,7 @@
 // of read requests (one cycle after rd_en rise). It also
 // calls cov.sample(tr) when coverage collection is enabled
 class fifo_monitor #(DATA_WIDTH = 8) extends uvm_monitor;
-  `uvm_component_utils(fifo_monitor)
+  `uvm_component_param_utils(fifo_monitor #(DATA_WIDTH))
 
   int unsigned tr_cnt = 0;
   virtual sync_fifo_if #(DATA_WIDTH) vif;

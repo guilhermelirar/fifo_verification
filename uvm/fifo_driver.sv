@@ -2,7 +2,7 @@
 class fifo_driver #(parameter DATA_WIDTH = 8)
 extends uvm_driver #(fifo_item #(DATA_WIDTH));
 
-  `uvm_component_utils(fifo_driver);
+  `uvm_component_param_utils(fifo_driver #(DATA_WIDTH));
 
   virtual sync_fifo_if #(DATA_WIDTH) vif;
 

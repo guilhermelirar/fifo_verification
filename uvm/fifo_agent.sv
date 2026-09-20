@@ -1,8 +1,8 @@
 // uvm/fifo_agent.sv
 // Encapsulates monitor, sequencer, driver and coverage
 // Instantiates and connects them
-class fifo_agent extends uvm_agent;
-  `uvm_component_utils(fifo_agent)
+class fifo_agent #(DATA_WIDTH = 8) extends uvm_agent;
+  `uvm_component_param_utils(fifo_agent #(DATA_WIDTH))
 
   fifo_sequencer#(DATA_WIDTH) sequencer;
   fifo_monitor #(DATA_WIDTH)  monitor;

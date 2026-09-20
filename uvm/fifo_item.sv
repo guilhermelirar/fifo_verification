@@ -7,7 +7,7 @@ class fifo_item #(DATA_WIDTH = 8) extends uvm_sequence_item;
   logic full, empty;
 
   // register into factory and field automation
-  `uvm_object_utils_begin(fifo_item)
+  `uvm_object_param_utils_begin(fifo_item #(DATA_WIDTH))
     `uvm_field_int(data_in, UVM_ALL_ON)
     `uvm_field_int(data_out, UVM_ALL_ON)
     `uvm_field_int(wr_en, UVM_BIN)

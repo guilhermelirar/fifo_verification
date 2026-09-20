@@ -3,7 +3,7 @@
 // receiving transactions observed at the interface from the Monitor
 class fifo_scoreboard #(parameter int DATA_WIDTH = 8, parameter int DEPTH=8)
 extends uvm_scoreboard;
-  `uvm_component_utils(fifo_scoreboard)
+  `uvm_component_param_utils(fifo_scoreboard #(DATA_WIDTH, DEPTH))
 
   uvm_analysis_imp #(fifo_item #(DATA_WIDTH),
                      fifo_scoreboard #(DATA_WIDTH)) ap_imp;

@@ -1,8 +1,9 @@
 // uvm/fifo_coverage.sv
 // Class that subscribes to monitor's analysis port
 // and samples coverage
-class fifo_coverage #(DATA_WIDTH=8) extends uvm_subscriber #(fifo_item #(DATA_WIDTH));
-  `uvm_component_utils(fifo_coverage)
+class fifo_coverage #(DATA_WIDTH=8) 
+  extends uvm_subscriber #(fifo_item #(DATA_WIDTH));
+  `uvm_component_param_utils(fifo_coverage #(DATA_WIDTH))
 
   fifo_item #(DATA_WIDTH) tr;
 
