@@ -31,14 +31,6 @@ extends uvm_scoreboard;
   virtual function void write(fifo_item #(DATA_WIDTH) tr);
     logic [DATA_WIDTH-1:0] first_in;
 
-    if (!tr.rst_n) begin
-      golden_queue.delete();
-      rd_requested = 1'b0;
-      empty        = 1'b1;
-      full         = 1'b0;
-      return;
-    end
-
     if ((tr.empty != empty) || (tr.full != full)) begin
       `uvm_error(get_type_name(),
         $sformatf(
@@ -59,7 +51,7 @@ extends uvm_scoreboard;
     // Write occurs when not full (including full with rd_en high, since
     // write is performed but state remains full)
     if (tr.wr_en && (!full | tr.rd_en)) begin
-      if ($unknown(tr.data_in)) `uvm_fatal(
+      if ($isunknown(tr.data_in)) `uvm_fatal(
         "TESTBENCH ERROR",
         "FIFO input data has unknown bit(s)"
       );

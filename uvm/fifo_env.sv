@@ -10,7 +10,7 @@ class fifo_env #(parameter int DATA_WIDTH = 8,
 
   function new(string name, uvm_component parent);
     super.new(name, parent);
-    `uvm_info(get_name_type(), "%m Environment instantiated", UVM_HIGH);
+    `uvm_info(get_type_name(), "%m Environment instantiated", UVM_HIGH);
   endfunction
 
   function void build_phase(uvm_phase phase);
@@ -21,7 +21,7 @@ class fifo_env #(parameter int DATA_WIDTH = 8,
         this
       );
 
-    `uvm_info(get_name_type(), "%m Environment built", UVM_HIGH);
+    `uvm_info(get_type_name(), "%m Environment built", UVM_HIGH);
   endfunction
 
   // Connects monitor analysis port to the scoreboard's analysis port 
@@ -29,7 +29,7 @@ class fifo_env #(parameter int DATA_WIDTH = 8,
   function void connect_phase(uvm_phase phase);
     super.connect_phase(phase);
     m_agent.monitor.mon_analysis_port.connect(m_scoreboard.ap_imp);
-    `uvm_info(get_name_type(), "%m Environment connected", UVM_HIGH);
+      `uvm_info(get_type_name(), "%m Environment connected", UVM_HIGH);
   endfunction
 
 endclass
