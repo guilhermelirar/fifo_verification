@@ -49,7 +49,7 @@ class fifo_coverage #(DATA_WIDTH=8)
   function new(string name = "fifo_coverage", uvm_component parent);
     super.new(name, parent);
     fifo_cg = new();
-    `uvm_info(get_type_name(), "%m Coverage class instantiated!", UVM_HIGH);
+    `uvm_info(get_type_name(), "Coverage class instantiated!", UVM_HIGH);
   endfunction
 
   virtual function void write(fifo_item #(DATA_WIDTH) t);

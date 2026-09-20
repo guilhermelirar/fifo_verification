@@ -8,7 +8,7 @@ extends uvm_driver #(fifo_item #(DATA_WIDTH));
 
   function new(string name = "fifo_driver", uvm_component parent);
     super.new(name, parent);
-    `uvm_info(get_type_name(), "%m Driver instantiated!", UVM_HIGH);
+    `uvm_info(get_type_name(), "Driver instantiated!", UVM_HIGH);
   endfunction
 
   // Retrieves the virtual interface through the uvm_config_db
@@ -20,9 +20,9 @@ extends uvm_driver #(fifo_item #(DATA_WIDTH));
     ))
     begin
       `uvm_info(get_type_name(),
-        "%m Retrieved virtual interface successfully", UVM_HIGH);
+        "Retrieved virtual interface successfully", UVM_HIGH);
     end else begin
-      `uvm_fatal(get_type_name(), "%m Failed to retrieve virtual interface");
+      `uvm_fatal(get_type_name(), "Failed to retrieve virtual interface");
     end
   endfunction
 

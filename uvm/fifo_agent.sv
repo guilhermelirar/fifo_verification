@@ -13,7 +13,7 @@ class fifo_agent #(DATA_WIDTH = 8) extends uvm_agent;
 
   function new(string name = "fifo_agent", uvm_component parent);
     super.new(name, parent);
-    `uvm_info(get_type_name(), "%m Agent instantiated", UVM_HIGH);
+    `uvm_info(get_type_name(), "Agent instantiated", UVM_HIGH);
   endfunction
 
   // Instantiates monitor and coverage, and also sequencer and driver

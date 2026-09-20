@@ -15,7 +15,7 @@ extends uvm_scoreboard;
 
   function new(string name = "fifo_scoreboard", uvm_component parent);
     super.new(name, parent);
-    `uvm_info(get_type_name(), "%m Scoreboard instantiated", UVM_HIGH);
+    `uvm_info(get_type_name(), "Scoreboard instantiated", UVM_HIGH);
   endfunction
 
   virtual function void build_phase(uvm_phase phase);

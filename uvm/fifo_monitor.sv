@@ -11,7 +11,7 @@ class fifo_monitor #(DATA_WIDTH = 8) extends uvm_monitor;
 
   function new(string name = "fifo_monitor", uvm_component parent);
     super.new(name, parent);
-    `uvm_info(get_type_name(), "%m Monitor instantiated", UVM_HIGH)
+    `uvm_info(get_type_name(), "Monitor instantiated", UVM_HIGH)
   endfunction
 
   // Retrieves virutal interface and coverage options
@@ -21,10 +21,10 @@ class fifo_monitor #(DATA_WIDTH = 8) extends uvm_monitor;
     if (!uvm_config_db#(virtual sync_fifo_if #(DATA_WIDTH))::get(
       this, "", "vif", vif)
     ) begin
-      `uvm_fatal(get_type_name(), "%m Failed to retrieve virtual interface");
+      `uvm_fatal(get_type_name(), "Failed to retrieve virtual interface");
     end
 
-    `uvm_info(get_type_name(), "%m Monitor was built" , UVM_HIGH)
+    `uvm_info(get_type_name(), "Monitor was built" , UVM_HIGH)
   endfunction
 
   virtual task run_phase(uvm_phase phase);

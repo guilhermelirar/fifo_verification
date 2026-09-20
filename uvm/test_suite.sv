@@ -5,7 +5,7 @@ class test_base extends uvm_test;
 
   function new(string name = "test_base", uvm_component parent = null);
     super.new(name, parent);
-    `uvm_info("TRACE","%m", UVM_HIGH);
+    `uvm_info("TRACE","Test instantiated", UVM_HIGH);
   endfunction
 
   function void build_phase(uvm_phase phase);
@@ -13,7 +13,7 @@ class test_base extends uvm_test;
     m_top_env = fifo_env#(DATA_WIDTH, DEPTH)::type_id::create(
       "m_top_env", this
     );
-    `uvm_info(get_type_name(), "%m Test built", UVM_HIGH);
+    `uvm_info(get_type_name(), "Test built", UVM_HIGH);
   endfunction
 
   virtual task run_phase(uvm_phase phase);

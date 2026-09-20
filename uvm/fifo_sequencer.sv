@@ -5,6 +5,6 @@ class fifo_sequencer #(int DATA_WIDTH = 8)
 
   function new(string name = "fifo_sequencer", uvm_component parent = null);
     super.new(name, parent);
-    `uvm_info(get_type_name(), "%m Sequencer instantiated", UVM_HIGH);
+    `uvm_info(get_type_name(), "Sequencer instantiated", UVM_HIGH);
   endfunction
 endclass
