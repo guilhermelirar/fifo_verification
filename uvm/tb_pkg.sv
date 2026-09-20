@@ -13,5 +13,6 @@ package tb_pkg;
   `include "fifo_monitor.sv"
   `include "fifo_scoreboard.sv"
   `include "fifo_agent.sv"
+  `include "fifo_env.sv"
   `include "test_suite.sv"
 endpackage
