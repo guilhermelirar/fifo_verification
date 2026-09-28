@@ -25,6 +25,7 @@ class fifo_monitor #(DATA_WIDTH = 8) extends uvm_monitor;
     end
 
     `uvm_info(get_type_name(), "Monitor was built" , UVM_HIGH)
+    mon_analysis_port = new("mon_analysis_port", this);
   endfunction
 
   virtual task run_phase(uvm_phase phase);
@@ -47,10 +48,12 @@ class fifo_monitor #(DATA_WIDTH = 8) extends uvm_monitor;
         tr.rd_en    = vif.mon_cb.rd_en;
         tr.data_in  = vif.mon_cb.data_in;
         tr.data_out = vif.mon_cb.data_out;
+        tr.empty = vif.mon_cb.empty;
+        tr.full  = vif.mon_cb.full;
         mon_analysis_port.write(tr);
       end
 
-      rd_requested = vif.mon_cb.rd_en;
+      rd_requested = vif.rd_en;
     end
 
   endtask
